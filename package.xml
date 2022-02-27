@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>wolf_ign_interface</name>
+  <version>0.0.1</version>
+  <description>Ignition hardware interface for WoLF</description>
+  <maintainer email="gennaro.raiola@gmail.com">graiola</maintainer>
+  <author>Gennaro Raiola</author>
+
+  <license>GNU General Public License v3.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>roscpp</depend>
+  <depend>ign_ros_control</depend>
+  <depend>controller_manager</depend>
+  <depend>pluginlib</depend>
+  <depend>transmission_interface</depend>
+  <depend>hardware_interface</depend>
+  <depend>wolf_hardware_interface</depend>
+  <depend>urdf</depend>
+  <depend>realtime_tools</depend>
+
+  <export>
+    <ign_ros_control plugin="${prefix}/wolf_ign_hw_plugins.xml"/>
+  </export>
+
+</package>

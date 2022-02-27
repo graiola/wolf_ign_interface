@@ -1,0 +1,11 @@
+<library path="libwolf_ign_hw">
+
+  <class name="wolf_ign_interface/WolfRobotHwIgn"
+         type="wolf_ign_interface::WolfRobotHwIgn"
+         base_class_type="ign_ros_control::IgnitionSystemInterface">
+    <description>
+      WoLF simulation interface for Ignition
+    </description>
+  </class>
+
+</library>

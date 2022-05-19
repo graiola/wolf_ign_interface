@@ -28,8 +28,8 @@ find_package(catkin REQUIRED COMPONENTS
   realtime_tools
   urdf)
 
-find_package(ignition-gazebo4 REQUIRED)
-set(IGN_GAZEBO_VER ${ignition-gazebo4_VERSION_MAJOR})
+find_package(ignition-gazebo6 REQUIRED)
+set(IGN_GAZEBO_VER ${ignition-gazebo6_VERSION_MAJOR})
 
 find_package(ignition-plugin1 REQUIRED)
 set(IGN_PLUGIN_VER ${ignition-plugin1_VERSION_MAJOR})

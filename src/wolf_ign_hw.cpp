@@ -24,8 +24,7 @@
 #include <ignition/gazebo/components/AngularAcceleration.hh>
 #include <ignition/gazebo/components/Imu.hh>
 #include <ignition/gazebo/components/Name.hh>
-#include <ignition/gazebo/components/ParentEntity.hh>
-#include <ignition/gazebo/components/Pose.hh>
+#include <ignition/gazebo/components/ForceTorque.hh>
 #include <ignition/gazebo/components/Sensor.hh>
 #include <ignition/msgs/imu.pb.h>
 
@@ -87,12 +86,28 @@ bool WolfRobotHwIgn::initSim(ros::NodeHandle model_nh,
     ROS_ERROR_STREAM_NAMED(CLASS_NAME,"Can not load imu interface: " <<e.what());
     res = false;
   }
+
+
+    if(ecm_->HasComponentType(ignition::gazebo::components::ForceTorque().TypeId()))
+    {
+      ecm_->Each<ignition::gazebo::components::ForceTorque,ignition::gazebo::components::Name>(
+            [&](const ignition::gazebo::Entity & _entity,
+            const ignition::gazebo::components::ForceTorque * _ft,
+            const ignition::gazebo::components::Name * _name) -> bool
+      {
+
+
+      });
+    }
+
+
   return res;
 }
 
 void WolfRobotHwIgn::read()
 {
   IgnitionSystem::read();
+  // Read IMU
   if (imu_topic_name_.empty()) {
     auto sensorTopicComp = ecm_->Component<
         ignition::gazebo::components::SensorTopic>(sim_imu_sensor_);
@@ -102,6 +117,8 @@ void WolfRobotHwIgn::read()
       node_.Subscribe(imu_topic_name_,&WolfRobotHwIgn::readImu,this);
     }
   }
+  // Read efforts
+
 }
 
 void WolfRobotHwIgn::write()

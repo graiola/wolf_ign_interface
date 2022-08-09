@@ -28,8 +28,31 @@ find_package(catkin REQUIRED COMPONENTS
   realtime_tools
   urdf)
 
-find_package(ignition-gazebo4 REQUIRED)
-set(IGN_GAZEBO_VER ${ignition-gazebo4_VERSION_MAJOR})
+if("$ENV{IGNITION_VERSION}" STREQUAL "citadel")
+  find_package(ignition-gazebo3 REQUIRED)
+  set(IGN_GAZEBO_VER ${ignition-gazebo3_VERSION_MAJOR})
+  message(STATUS "Compiling against Ignition Citadel")
+
+elseif("$ENV{IGNITION_VERSION}" STREQUAL "dome")
+  find_package(ignition-gazebo4 REQUIRED)
+  set(IGN_GAZEBO_VER ${ignition-gazebo4_VERSION_MAJOR})
+  message(STATUS "Compiling against Ignition Dome")
+
+elseif("$ENV{IGNITION_VERSION}" STREQUAL "edifice")
+  find_package(ignition-gazebo5 REQUIRED)
+  set(IGN_GAZEBO_VER ${ignition-gazebo5_VERSION_MAJOR})
+  message(STATUS "Compiling against Ignition Edifice")
+
+elseif("$ENV{IGNITION_VERSION}" STREQUAL "fortress")
+  find_package(ignition-gazebo6 REQUIRED)
+  set(IGN_GAZEBO_VER ${ignition-gazebo6_VERSION_MAJOR})
+  message(STATUS "Compiling against Ignition Fortress")
+
+else()
+  find_package(ignition-gazebo3 REQUIRED)
+  set(IGN_GAZEBO_VER ${ignition-gazebo3_VERSION_MAJOR})
+  message(STATUS "Compiling against Ignition Dome")
+endif()
 
 find_package(ignition-plugin1 REQUIRED)
 set(IGN_PLUGIN_VER ${ignition-plugin1_VERSION_MAJOR})

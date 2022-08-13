@@ -76,6 +76,7 @@ bool WolfRobotHwIgn::initSim(ros::NodeHandle model_nh,
             ROS_INFO_STREAM_NAMED(CLASS_NAME,"Topic name: " << sensorTopicComp->Data());
             imu_topic_name_ = sensorTopicComp->Data();
           }
+          registerInterface(&imu_sensor_interface_);
         }
         return true;
       });
@@ -94,10 +95,11 @@ bool WolfRobotHwIgn::initSim(ros::NodeHandle model_nh,
 void WolfRobotHwIgn::read()
 {
   IgnitionSystem::read();
-  if (imu_topic_name_.empty()) {
-    auto sensorTopicComp = ecm_->Component<
-        ignition::gazebo::components::SensorTopic>(sim_imu_sensor_);
-    if (sensorTopicComp) {
+  if (imu_topic_name_.empty())
+  {
+    auto sensorTopicComp = ecm_->Component<ignition::gazebo::components::SensorTopic>(sim_imu_sensor_);
+    if (sensorTopicComp)
+    {
       imu_topic_name_ = sensorTopicComp->Data();
       ROS_INFO_STREAM_NAMED(CLASS_NAME,"IMU sensor has a topic named " << sensorTopicComp->Data() << ", subscribing to it.");
       node_.Subscribe(imu_topic_name_,&WolfRobotHwIgn::readImu,this);

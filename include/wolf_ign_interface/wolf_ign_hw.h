@@ -42,6 +42,7 @@
 
 // ignition
 #include <ignition/transport/Node.hh>
+#include <ignition/gazebo/components/Imu.hh>
 
 namespace wolf_ign_interface
 {
@@ -84,7 +85,7 @@ private:
 
   ignition::gazebo::EntityComponentManager* ecm_;
 
-  ignition::gazebo::Entity sim_imu_sensor_;
+  const ignition::gazebo::components::Imu* sim_imu_sensor_;
 
   ignition::transport::Node node_;
 

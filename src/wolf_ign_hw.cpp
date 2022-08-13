@@ -22,7 +22,6 @@
 // ignition
 #include <ignition/gazebo/components/AngularVelocity.hh>
 #include <ignition/gazebo/components/AngularAcceleration.hh>
-#include <ignition/gazebo/components/Imu.hh>
 #include <ignition/gazebo/components/Name.hh>
 #include <ignition/gazebo/components/ParentEntity.hh>
 #include <ignition/gazebo/components/Pose.hh>
@@ -68,15 +67,17 @@ bool WolfRobotHwIgn::initSim(ros::NodeHandle model_nh,
           ROS_INFO_STREAM_NAMED(CLASS_NAME,"Loading IMU sensor: " << _name->Data());
           WolfRobotHwInterface::initializeImuInterface(_name->Data());
 
-          sim_imu_sensor_ = _entity;
+          sim_imu_sensor_ = _imu;
 
-          auto sensorTopicComp = ecm_->Component<ignition::gazebo::components::SensorTopic>(_entity);
-          if (sensorTopicComp)
+          if (sim_imu_sensor_ != nullptr)
           {
-            ROS_INFO_STREAM_NAMED(CLASS_NAME,"Topic name: " << sensorTopicComp->Data());
-            imu_topic_name_ = sensorTopicComp->Data();
+            imu_topic_name_ = sim_imu_sensor_->Data().Topic();
+            ROS_INFO_STREAM_NAMED(CLASS_NAME,"IMU topic: " << imu_topic_name_);
           }
+          else
+            throw std::runtime_error("Can not load imu sensor!");
         }
+        return true;
       });
     }
     else
@@ -93,12 +94,11 @@ bool WolfRobotHwIgn::initSim(ros::NodeHandle model_nh,
 void WolfRobotHwIgn::read()
 {
   IgnitionSystem::read();
-  if (imu_topic_name_.empty()) {
-    auto sensorTopicComp = ecm_->Component<
-        ignition::gazebo::components::SensorTopic>(sim_imu_sensor_);
-    if (sensorTopicComp) {
-      imu_topic_name_ = sensorTopicComp->Data();
-      ROS_INFO_STREAM_NAMED(CLASS_NAME,"IMU sensor has a topic named " << sensorTopicComp->Data() << ", subscribing to it.");
+  if (imu_topic_name_.empty())
+  {
+    if (sim_imu_sensor_ != nullptr)
+    {
+      ROS_INFO_STREAM_NAMED(CLASS_NAME,"IMU sensor has a topic named " << sim_imu_sensor_->Data().Topic() << ", subscribing to it.");
       node_.Subscribe(imu_topic_name_,&WolfRobotHwIgn::readImu,this);
     }
   }

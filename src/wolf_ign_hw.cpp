@@ -77,6 +77,7 @@ bool WolfRobotHwIgn::initSim(ros::NodeHandle model_nh,
             imu_topic_name_ = sensorTopicComp->Data();
           }
         }
+        return true;
       });
     }
     else

@@ -60,7 +60,7 @@ bool WolfRobotHwIgn::initSim(ros::NodeHandle model_nh,
     {
       ecm_->Each<ignition::gazebo::components::Imu,ignition::gazebo::components::Name>(
             [&](const ignition::gazebo::Entity & _entity,
-            const ignition::gazebo::components::Imu * _imu,
+            const ignition::gazebo::components::Imu * /*_imu*/,
             const ignition::gazebo::components::Name * _name) -> bool
       {
         if(selected_imu == _name->Data())
